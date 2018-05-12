@@ -7,6 +7,8 @@ public class apiService {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://www.theaudiodb.com/api/v1/json/{1}/")
                 .build();
+
         return retrofit.create(apiClient.class)
     }
+
 }
