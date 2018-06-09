@@ -1,6 +1,7 @@
 package com.example.stud.musicapp.api;
 
-public class trendingSingle {
+
+public class TrendingSingle {
     public int idAlbum ;
     public int idArtist ;
     public int idTrack ;
@@ -10,4 +11,8 @@ public class trendingSingle {
     public String strArtist ;
     public String strTrack ;
     public String strTrackThumb ;
+
+
 }
+
+
