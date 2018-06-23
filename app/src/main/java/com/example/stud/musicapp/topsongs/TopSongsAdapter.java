@@ -32,12 +32,16 @@ public class TopSongsAdapter extends RecyclerView.Adapter<TopSongsAdapter.TopSon
 
     @Override
     public void onBindViewHolder(TopSongsViewHolder holder, int position) {
-        TrendingSingle single = singles.get(position);
+        final TrendingSingle single = singles.get(position);
 
         holder. llContainer .setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(v.getContext(), SongDetailsActivity. class );
+                intent.putExtra(SongDetailsActivity. TRACK , single.strTrack );
+                intent.putExtra(SongDetailsActivity. ARTIST , single.strArtist );
+                intent.putExtra(SongDetailsActivity. TRACK_ID , single.idTrack );
                 v.getContext().startActivity(intent);
             }
         });
