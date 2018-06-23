@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,5 +90,19 @@ ApiService. getService ().getTrack(trackId).enqueue( new Callback<Tracks>() {
         return true ;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id. itemFavorite :
+                addRemoveFavorite();
+                Toast. makeText ( this , "TODO" , Toast. LENGTH_SHORT ).show();
+                return true ;
+            default :
+                return super .onOptionsItemSelected(item);
+        }
+    }
 
+    private void addRemoveFavorite() {
+
+    }
 }
