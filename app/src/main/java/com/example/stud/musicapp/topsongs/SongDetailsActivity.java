@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.stud.musicapp.R;
 import com.example.stud.musicapp.api.ApiService;
+import com.example.stud.musicapp.api.Track;
 import com.example.stud.musicapp.api.Tracks;
 
 import retrofit2.Call;
@@ -37,14 +39,16 @@ public class SongDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setSubtitle(artist);
 
 
+
+
 ApiService. getService ().getTrack(trackId).enqueue( new Callback<Tracks>() {
         @Override
         public void onResponse( @NonNull Call<Tracks> call, @NonNull Response<Tracks>
                 response) {
-            Toast. makeText (
-                    SongDetailsActivity. this ,
-                    "Pobrano dane" , Toast. LENGTH_SHORT
-            ).show();
+            Tracks tracks = response.body();
+            if (tracks != null && tracks. track .size() > 0 ) {
+                showData(tracks. track .get( 0 ));
+            }
         }
 
         @Override
@@ -56,7 +60,16 @@ ApiService. getService ().getTrack(trackId).enqueue( new Callback<Tracks>() {
             ).show();
         }
     });
+    }
 
-
+    private void showData(Track track) {
+        TextView tvAlbum = findViewById(R.id. tvAlbum );
+        TextView tvGenre = findViewById(R.id. tvGenre );
+        TextView tvStyle = findViewById(R.id. tvStyle );
+        TextView tvDescription = findViewById(R.id. tvDescription );
+        tvAlbum.setText(track. strAlbum );
+        tvGenre.setText(track. strGenre );
+        tvStyle.setText(track. strStyle );
+        tvDescription.setText(track. strDescriptionEN );
     }
 }
