@@ -16,7 +16,11 @@ import com.example.stud.musicapp.R;
 import com.example.stud.musicapp.api.ApiService;
 import com.example.stud.musicapp.api.Track;
 import com.example.stud.musicapp.api.Tracks;
+import com.example.stud.musicapp.database.favourite;
 
+import java.util.Date;
+
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,7 +31,9 @@ public class SongDetailsActivity extends AppCompatActivity {
     public static final String ARTIST = "artist" ;
     public static final String TRACK_ID = "track_id" ;
 
-
+    String track;
+    String artist;
+    String trackID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +109,43 @@ ApiService. getService ().getTrack(trackId).enqueue( new Callback<Tracks>() {
     }
 
     private void addRemoveFavorite() {
+        Realm realm = Realm. getDefaultInstance ();
+        favourite favorite = realm
+                .where(favourite. class )
+                .equalTo( "trackId" , trackID )
+                .findFirst();
 
+        if (favorite == null ) {
+            addToFavorites(realm);
+        } else {
+            removeFromFavorites(realm, favorite);
+        }
     }
+
+
+    private void addToFavorites(Realm realm) {
+        realm.executeTransaction( new Realm.Transaction() {
+            @Override
+            public void execute( @NonNull Realm realm) {
+                favourite favorite = realm.createObject(favourite. class );
+                favorite.setArtist( artist );
+                favorite.setTrack( track );
+                favorite.setTrackId( trackId );
+                favorite.setDate( new Date());
+                Toast. makeText (SongDetailsActivity. this , "Dodano do ulubionych" ,
+                        Toast. LENGTH_SHORT ).show();
+            }
+        });
+    }
+    private void removeFromFavorites(Realm realm, final favourite favorite) {
+        realm.executeTransaction( new Realm.Transaction() {
+            @Override
+            public void execute( @NonNull Realm realm) {
+                favorite .deleteFromRealm();
+                Toast. makeText (SongDetailsActivity. this , "Usunięto z ulubionych" ,
+                        Toast. LENGTH_SHORT ).show();
+            }
+        });
+    }
+
 }
